@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=cron_tz_emails_scheduler
+      - MYSQL_USER=cron_tz_emails_scheduler
+      - MYSQL_PASSWORD=test_password
+    volumes:
+      - /data/mysql
+  spring-boot-jpa-app:
+    image: spring-boot-jpa-image
+    build:
+      context: ./
+      dockerfile: ./cron-tz-emails-scheduler/Dockerfile
+    depends_on:
+      - mysql
+    ports:
+      - 8087:8080
+    volumes:
+      - /data/spring-boot-app
